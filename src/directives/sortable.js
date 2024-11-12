@@ -10,8 +10,8 @@ export default {
             forceFallback: true,
             scroll: true,
             scrollSensitivity: 100,
-            scrollSpeed:20,
-            fallbackTolerance:10,
+            scrollSpeed: 20,
+            fallbackTolerance: 10,
             selectedClass: 'selected',
             ghostClass: 'sortable-ghost',
             onStart: (evt) => {
@@ -19,6 +19,9 @@ export default {
             },
             onEnd: (evt) => {
                 removeGhostCount(evt);
+                if (binding.value.onEnd) {
+                    binding.value.onEnd(evt);
+                }
             },
         });
     },
@@ -26,7 +29,6 @@ export default {
 
 function updateGhostCount(evt) {
     const selectedItems = evt.from.querySelectorAll('.selected');
-    console.log(selectedItems)
     if (selectedItems.length > 1) {
         let badge = document.createElement('span');
         badge.className = 'ghost-count';
