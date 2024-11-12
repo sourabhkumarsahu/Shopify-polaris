@@ -8,38 +8,16 @@ export default {
             ...binding.value,
             multiDrag: true,
             forceFallback: true,
+            easing: "cubic-bezier(1, 0, 0, 1)",
+            animation:150,
             scroll: true,
             scrollSensitivity: 100,
             scrollSpeed: 20,
-            fallbackTolerance: 10,
-            selectedClass: 'selected',
-            ghostClass: 'sortable-ghost',
-            onStart: (evt) => {
-                updateGhostCount(evt);
-            },
-            onEnd: (evt) => {
-                removeGhostCount(evt);
-                if (binding.value.onEnd) {
-                    binding.value.onEnd(evt);
-                }
-            },
+            ghostClass: "sortable-ghost",  // Style for the element being dragged
+            chosenClass: "sortable-chosen",  // Style for the chosen element
+            dragClass: "sortable-drag",  // Style for the dragged element
+            fallbackTolerance: 3,  // Delay for fallback mode
+            selectedClass: 'sortable-selected',  // Class for selected items
         });
     },
 };
-
-function updateGhostCount(evt) {
-    const selectedItems = evt.from.querySelectorAll('.selected');
-    if (selectedItems.length > 1) {
-        let badge = document.createElement('span');
-        badge.className = 'ghost-count';
-        badge.textContent = `+${selectedItems.length - 1}`;
-        evt.item.appendChild(badge);
-    }
-}
-
-function removeGhostCount(evt) {
-    const badge = evt.item.querySelector('.ghost-count');
-    if (badge) {
-        badge.remove();
-    }
-}
