@@ -6,8 +6,8 @@
       :description="productName">
     <img
         :alt="productName"
-        width="50%"
-        height="50%"
+        width="100%"
+        height="80%"
         :src="productImage ? productImage : '~@/assets/images/no-product-image.jpg'"
         class="w-32 h-32 object-contain object-center mx-auto"
     />
