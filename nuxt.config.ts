@@ -3,6 +3,11 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
   css: ['~/assets/css/main.css'],
+  security: {
+    headers: {
+      xFrameOptions: true,
+    },
+  },
   plugins: [
     { src: '~/plugins/vue-draggable-next.client.js' }
   ],
@@ -11,11 +16,6 @@ export default defineNuxtConfig({
   },
   typescript: {
     typeCheck: false
-  },
-  runtimeConfig: {
-    public: {
-      allowFrames: process.env.ALLOW_FRAMES || 'false',
-    },
   },
   postcss: {
     plugins: {

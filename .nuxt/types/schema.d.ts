@@ -64,7 +64,7 @@ declare module 'nuxt/schema' {
    },
   }
   interface PublicRuntimeConfig {
-   allowFrames: string,
+
   }
 }
 declare module 'vue' {

@@ -706,9 +706,7 @@ const _inlineRuntimeConfig = {
       }
     }
   },
-  "public": {
-    "allowFrames": "false"
-  }
+  "public": {}
 };
 const envOptions = {
   prefix: "NITRO_",
