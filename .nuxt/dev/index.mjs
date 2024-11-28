@@ -179,7 +179,7 @@ const _X1jrz2te1i = (function(nitro) {
 
 const rootDir = "/home/sourabh/POC/Shopify-polaris";
 
-const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initial-scale=1"},{"charset":"utf-8"}],"link":[],"style":[],"script":[],"noscript":[]};
+const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initial-scale=1"},{"charset":"utf-8"},{"http-equiv":"X-Frame-Options","content":"ALLOWALL"},{"name":"Content-Security-Policy","content":"frame-ancestors 'self' https://*.myshopify.com"}],"link":[],"style":[],"script":[],"noscript":[]};
 
 const appRootTag = "div";
 

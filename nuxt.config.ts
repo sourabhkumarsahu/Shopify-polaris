@@ -2,12 +2,15 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
-  css: ['~/assets/css/main.css'],
-  security: {
-    headers: {
-      xFrameOptions: true,
+  app: {
+    head: {
+      meta: [
+        { 'http-equiv': 'X-Frame-Options', content: 'ALLOWALL' },
+        { name: 'Content-Security-Policy', content: "frame-ancestors 'self' https://*.myshopify.com" },
+      ],
     },
   },
+  css: ['~/assets/css/main.css'],
   plugins: [
     { src: '~/plugins/vue-draggable-next.client.js' }
   ],
