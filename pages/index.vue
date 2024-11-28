@@ -13,6 +13,7 @@
             <product-card v-for="(element, index) in productsToShow" :class="{ 'sortable-selected': element.selected }"
                           class="draggable rounded" :key="element.productId" :product-image="element.image?.src"
                           :product-id="element.productId" :product-name="element.title"
+                          :data-selected-count="selectedProducts.length"
                           @click="onItemClick(index)"></product-card>
           </div>
           <div ref="loadMoreTrigger" class="load-more-trigger"></div>
@@ -51,16 +52,16 @@
 </template>
 
 <script setup>
-import {ref, onMounted, computed, onBeforeUnmount} from 'vue';
-import {useRoute} from 'vue-router';
+import { ref, onMounted, computed, onBeforeUnmount } from 'vue';
+import { useRoute } from 'vue-router';
 import locales from '@ownego/polaris-vue/dist/locales/en.json';
-import {AppProvider} from "@ownego/polaris-vue";
+import { AppProvider } from "@ownego/polaris-vue";
 
 const route = useRoute();
-let collection = ref({});
-let products = ref([]);
+const collection = ref({});
+const products = ref([]);
 const collectionId = Number(route.params.id);
-const sendToPosition = ref(0);
+const sendToPosition = ref(1);
 const productsPerPage = 50;
 const skip = ref(0);
 const infiniteScrollCount = ref(productsPerPage);
@@ -70,32 +71,6 @@ const isMobile = window.innerWidth < 640;
 const cardsPerRow = ref(isMobile ? 2 : 6);
 const selectedProducts = ref([]);
 
-onMounted(async () => {
-  window.addEventListener('resize', () => {
-    if (window.innerWidth < 640) {
-      cardsPerRow.value = 2;
-    }
-  });
-
-
-  // collection.value = response.data;
-  // if (collection.value.merchandisingMode === 1) {
-  //   console.log('auto mode');
-  // }
-  await getProducts();
-  document.addEventListener('click', handleClickOutside);
-  if (loadMoreTrigger.value) {
-    observer.observe(loadMoreTrigger.value);
-  }
-});
-
-onBeforeUnmount(() => {
-  document.removeEventListener('click', handleClickOutside);
-  if (loadMoreTrigger.value) {
-    observer.unobserve(loadMoreTrigger.value);
-  }
-});
-
 const getProducts = async () => {
   let response = await $fetch('https://merchandising-uat.searchtap.io/api/client/1/collection/1/products-v2', {
     method: "GET",
@@ -103,7 +78,6 @@ const getProducts = async () => {
       'Authorization': "Bearer y1OUDAmQiU2AieXqzxePmm902rHLkOjevpxWk8A7okuxhzcfadjakjdKSDIJHhjsih@#466bCTWU7jpPij4pAzSu1695oxZL5ZSPbtDIXdXABJZrbm1L9RYayS2hc",
     },
   });
-  console.log(response, 'dsfds')
   products.value = response.data.products;
   loadMoreProducts();
 };
@@ -117,6 +91,7 @@ const loadMoreProducts = () => {
 };
 
 const onItemClick = (index) => {
+  console.log('called clicl')
   products.value[index].selected = !products.value[index].selected;
   if (products.value[index].selected) {
     selectedProducts.value.push(products.value[index]);
@@ -125,20 +100,14 @@ const onItemClick = (index) => {
   }
 };
 
-const onDragEnd = (event) => {
-  console.log('drag end');
+const onDragEnd = () => {
   unselectAll();
 };
 
 const unselectAll = () => {
+  console.log('called', selectedProducts.value)
   products.value.forEach(product => product.selected = false);
   selectedProducts.value = [];
-};
-
-const handleClickOutside = (event) => {
-  if (!event.target.closest('.draggable') && !event.target.closest('#navigationBar')) {
-    unselectAll();
-  }
 };
 
 const send = () => {
@@ -146,17 +115,10 @@ const send = () => {
     alert('No products selected');
     return;
   }
-
-  // Remove selected products from the list
+console.log('semd')
   products.value = products.value.filter(product => !product.selected);
-
-  // Ensure the position is within valid range
   let position = Math.max(0, Math.min(sendToPosition.value - 1, products.value.length));
-
-  // Insert selected products at the specified position
   products.value.splice(position, 0, ...selectedProducts.value);
-
-  // Unselect all products
   unselectAll();
 };
 
@@ -166,13 +128,8 @@ const sendToTop = () => {
     return;
   }
 
-  // Remove selected products from the list
   products.value = products.value.filter(product => !product.selected);
-
-  // Insert selected products at the top
   products.value.unshift(...selectedProducts.value);
-
-  // Unselect all products
   unselectAll();
 };
 
@@ -182,13 +139,8 @@ const sendToBottom = () => {
     return;
   }
 
-  // Remove selected products from the list
   products.value = products.value.filter(product => !product.selected);
-
-  // Insert selected products at the bottom
   products.value.push(...selectedProducts.value);
-
-  // Unselect all products
   unselectAll();
 };
 
@@ -232,8 +184,26 @@ const maxCardsPerRow = computed(() => {
   return window.innerWidth < 640 ? 2 : 12;
 });
 
+onMounted(async () => {
+  window.addEventListener('resize', () => {
+    if (window.innerWidth < 640) {
+      cardsPerRow.value = 2;
+    }
+  });
 
+  await getProducts();
+  if (loadMoreTrigger.value) {
+    observer.observe(loadMoreTrigger.value);
+  }
+});
+
+onBeforeUnmount(() => {
+  if (loadMoreTrigger.value) {
+    observer.unobserve(loadMoreTrigger.value);
+  }
+});
 </script>
+
 <style scoped>
 html {
   scroll-behavior: smooth;
@@ -241,7 +211,7 @@ html {
 
 .draggable {
   position: relative;
-  user-select: none; /* Disable text selection */
+  user-select: none;
 }
 
 .selected-count {
@@ -283,17 +253,33 @@ html {
 .sortable-ghost {
   color: #fff;
   border: 2px solid #61ca2f;
-
 }
 
 .sortable-chosen {
-  //background: black;
 }
 
-.sortable-drag {
-  border: 2px solid #d64f4f;
+.sortable-drag::before {
+  content: attr(data-selected-count);
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #000;
+  color: #fff;
+  padding: 0.2em 0.5em;
+  font-size: 0.8em;
+  border-radius: 0 0 5px 0;
+}
 
-  //background: yellow;
+.sortable-drag::after {
+  content: attr(data-selected-count);
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: #000;
+  color: #fff;
+  padding: 0.2em 0.5em;
+  font-size: 0.8em;
+  border-radius: 5px 0 0 0;
 }
 
 .load-more-trigger {

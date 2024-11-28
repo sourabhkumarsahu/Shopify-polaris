@@ -17,7 +17,8 @@
             </select>
           </div>
           <div v-sortable="{ animation: 0, onEnd: onDragEnd }" :class="gridClass">
-            <product-card v-for="(element, index) in productsToShow" :class="{ 'sortable-selected': element.selected }" class="draggable rounded" :key="element.productId" :product-image="element.image?.src"
+            <product-card v-for="(element, index) in productsToShow" :class="{ 'sortable-selected': element.selected }"
+                          class="draggable rounded" :key="element.productId" :product-image="element.image?.src"
                           :product-id="element.productId" :product-name="element.title"
                           @click="onItemClick(index)"></product-card>
           </div>
@@ -26,10 +27,10 @@
         </LegacyStack>
         <LegacyStack v-if="isAnyProductSelected" id="navigationBar" distribution="trailing">
           <Text variant="headingXs" as="h6">
-            {{products.length}} Products
+            {{ products.length }} Products
           </Text>
           <Text variant="headingXs" as="h6">
-            {{selectedProducts.length}} Selected
+            {{ selectedProducts.length }} Selected
           </Text>
           <TextField
               :min="1"
@@ -41,10 +42,14 @@
               class="flex-1"
           />
           <ButtonGroup class="flex flex-row gap-2 pt-2">
-            <Button @click="send" variant="primary" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Send</Button>
+            <Button @click="send" variant="primary"
+                    class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Send
+            </Button>
             <Button @click="sendToTop" variant="primary">Send to Top</Button>
             <Button @click="sendToBottom" variant="primary">Send to Bottom</Button>
-            <Button @click="unselectAll" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded">Unselect</Button>
+            <Button @click="unselectAll"
+                    class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded">Unselect
+            </Button>
           </ButtonGroup>
         </LegacyStack>
       </LegacyCard>
@@ -53,10 +58,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, onBeforeUnmount } from 'vue';
-import { useRoute } from 'vue-router';
+import {ref, onMounted, computed, onBeforeUnmount} from 'vue';
+import {useRoute} from 'vue-router';
 import locales from '@ownego/polaris-vue/dist/locales/en.json';
-import { AppProvider } from "@ownego/polaris-vue";
+import {AppProvider} from "@ownego/polaris-vue";
 
 const route = useRoute();
 let collection = ref({});
@@ -260,7 +265,7 @@ html {
 .Polaris-LegacyStack.Polaris-LegacyStack--distributionTrailing {
   align-items: end;
   position: fixed;
-  z-index: 9999;
+  z-index: 9999999;
   background: #fff;
   right: 25px;
   bottom: 25px;

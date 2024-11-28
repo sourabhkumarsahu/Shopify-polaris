@@ -11,12 +11,13 @@ export default {
             easing: "cubic-bezier(1, 0, 0, 1)",
             animation:150,
             scroll: true,
+            avoidImplicitDeselect: true,
             scrollSensitivity: 100,
             scrollSpeed: 20,
             ghostClass: "sortable-ghost",  // Style for the element being dragged
             chosenClass: "sortable-chosen",  // Style for the chosen element
             dragClass: "sortable-drag",  // Style for the dragged element
-            fallbackTolerance: 3,  // Delay for fallback mode
+            fallbackTolerance: 5, // Delay for fallback mode
             selectedClass: 'sortable-selected',  // Class for selected items
         });
     },
