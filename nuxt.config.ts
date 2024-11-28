@@ -12,6 +12,11 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: false
   },
+  runtimeConfig: {
+    public: {
+      allowFrames: process.env.ALLOW_FRAMES || 'false',
+    },
+  },
   postcss: {
     plugins: {
       tailwindcss: {},
