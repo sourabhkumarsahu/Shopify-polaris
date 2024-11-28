@@ -12,7 +12,7 @@
   "dependencies": {
     "@ownego/polaris-vue": "^2.1.13",
     "cors": "^2.8.5",
-    "nuxt": "^3.13.2",
+    "nuxt": "^3.14.1592",
     "sortable.js": "^0.3.0",
     "sortablejs": "^1.15.3",
     "vite-svg-loader": "^5.1.0",

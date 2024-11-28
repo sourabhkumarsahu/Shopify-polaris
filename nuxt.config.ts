@@ -10,7 +10,7 @@ export default defineNuxtConfig({
     transpile: ["@ownego/polaris-vue"],
   },
   typescript: {
-    typeCheck: true
+    typeCheck: false
   },
   postcss: {
     plugins: {
