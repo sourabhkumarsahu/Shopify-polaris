@@ -2,7 +2,7 @@
   <MediaCard
       :portrait="true"
       size="small"
-      :title="productId"
+      :title="`${productId}`+` `+ `${position+1}`"
       :description="productName">
     <img
         :alt="productName"
@@ -22,6 +22,9 @@ const props = defineProps({
   productName: {
     required: true
   },
+  position:{
+    required:true
+  },
   productId: {
     required: true
   },
@@ -32,15 +35,5 @@ const props = defineProps({
 </script>
 <style scoped>
 
-.selected-count {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  background-color: #000;
-  color: #fff;
-  border-radius: 50%;
-  padding: 0.5em;
-  font-size: 5px;
-  z-index: 10;
-}
+
 </style>

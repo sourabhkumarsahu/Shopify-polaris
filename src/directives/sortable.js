@@ -17,7 +17,7 @@ export default {
             ghostClass: "sortable-ghost",  // Style for the element being dragged
             chosenClass: "sortable-chosen",  // Style for the chosen element
             dragClass: "sortable-drag",  // Style for the dragged element
-            fallbackTolerance: 5, // Delay for fallback mode
+            fallbackTolerance: 10, // Delay for fallback mode
             selectedClass: 'sortable-selected',  // Class for selected items
         });
     },

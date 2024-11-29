@@ -11,9 +11,9 @@
           </div>
           <div v-sortable="{ animation: 0, onEnd: onDragEnd }" :class="gridClass">
             <product-card v-for="(element, index) in productsToShow" :class="{ 'sortable-selected': element.selected }"
-                          class="draggable rounded" :key="element.productId" :product-image="element.image?.src"
+                          class="draggable" :key="element.productId" :product-image="element.image?.src"
                           :product-id="element.productId" :product-name="element.title"
-                          v-bind="getSelectedCountAttribute"
+                          v-bind="getSelectedCountAttribute" :position="index"
                           @click="onItemClick(index)"></product-card>
           </div>
           <div ref="loadMoreTrigger" class="load-more-trigger"></div>
