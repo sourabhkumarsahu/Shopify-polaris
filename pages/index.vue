@@ -13,7 +13,7 @@
             <product-card v-for="(element, index) in productsToShow" :class="{ 'sortable-selected': element.selected }"
                           class="draggable rounded" :key="element.productId" :product-image="element.image?.src"
                           :product-id="element.productId" :product-name="element.title"
-                          :data-selected-count="selectedProducts.length"
+                          v-bind="getSelectedCountAttribute"
                           @click="onItemClick(index)"></product-card>
           </div>
           <div ref="loadMoreTrigger" class="load-more-trigger"></div>
@@ -162,6 +162,10 @@ const observer = new IntersectionObserver((entries) => {
   threshold: 1.0
 });
 
+const getSelectedCountAttribute = computed(() => {
+  return selectedProducts.value.length > 1 ? { 'data-selected-count': selectedProducts.value.length } : {};
+});
+
 const gridClass = computed(() => {
   return {
     'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-1': cardsPerRow.value === 1,
@@ -263,24 +267,22 @@ html {
   position: absolute;
   top: 0;
   left: 0;
-  background-color: #000;
-  color: #fff;
+  color: #000;
   padding: 0.2em 0.5em;
-  font-size: 0.8em;
+  font-size: 1em;
   border-radius: 0 0 5px 0;
 }
 
-.sortable-drag::after {
+/*.sortable-drag::after {
   content: attr(data-selected-count);
   position: absolute;
   bottom: 0;
   right: 0;
-  background-color: #000;
-  color: #fff;
+  color: #000;
   padding: 0.2em 0.5em;
-  font-size: 0.8em;
+  font-size: 1em;
   border-radius: 5px 0 0 0;
-}
+}*/
 
 .load-more-trigger {
   height: 1px;
